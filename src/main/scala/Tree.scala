@@ -23,5 +23,19 @@ object Tree {
     t match
       case Leaf(a) => Leaf(f(a))
       case Branch(l,r) => Branch(map(l)(f), map(r)(f))
-}
 
+  def fold[A,B](t: Tree[A], f: A => B)(g: (B,B) => B): B =
+    t match
+      case Leaf(a) => f(a)
+      case Branch(l,r) => g(fold(l, f)(g), fold(r, f)(g))
+
+  def fSize[A](t: Tree[A]): Int = fold[A,Int](t, _ => 1)((a,b) => 1 + (a + b))
+
+  def fMax(t: Tree[Int]): Int = fold[Int,Int](t, identity)(_ max _)
+
+  def fDepth[A](t: Tree[A]): Int = fold[A,Int](t, _ => 0)((a,b) => 1 + a max b)
+
+  def fMap[A,B](t: Tree[A])(f: A => B): Tree[B] =
+    fold[A,Tree[B]](t, el => Leaf(f(el)))(Branch.apply[B])
+
+}

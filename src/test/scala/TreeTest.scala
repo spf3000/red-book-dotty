@@ -24,4 +24,16 @@ class TreeTest {
 
   @Test
   def mapTest = assertEquals(tPlusOne, map(t)(_ + 1))
+
+  @Test
+  def fSizeTest = assertEquals(7, fSize(t))
+
+  @Test
+  def fMaxTest = assertEquals(4, fMax(t))
+
+  @Test
+  def fDepthTest = assertEquals(3, depth[Int](t))
+
+  @Test
+  def fMapTest = assertEquals(tPlusOne, fMap(t)(_ + 1))
 }
